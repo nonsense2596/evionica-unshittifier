@@ -16,15 +16,31 @@
 const doShit = () => {
     document.body.onkeyup = keyEventHandler;
 
-    const aa = document.querySelector("#slide");
-    aa.onclick = clickEventHandler;
+    const slide = document.querySelector("#slide");
+    slide.onclick = clickEventHandler(slide);
 
 }
 
-const clickEventHandler = (e) => {
-    console.log('click event handled');
-    const playpausebutton = document.querySelector("#play-pause");
-    playpausebutton.click();
+const clickEventHandler = (slide) => {
+    return (e) => {
+        console.log('click event handled');
+        var divWidth = slide.offsetWidth;
+        var clickX = e.clientX - slide.getBoundingClientRect().left;
+        if (clickX / divWidth <= 0.2) {
+            console.log('leftmost 20%');
+            const prevbutton = document.querySelector("#prev");
+            prevbutton.click();
+        } else if (clickX / divWidth >= 0.8) {
+            console.log('rightmost 20%');
+            const nextbutton = document.querySelector("#next");
+            nextbutton.click();
+        } else {
+            console.log('middle 60%');
+            const playpausebutton = document.querySelector("#play-pause");
+            playpausebutton.click();
+        }
+    }
+
 }
 
 const keyEventHandler = (e) => {
